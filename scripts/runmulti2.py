@@ -103,7 +103,7 @@ def process_obsid(obsid):
         logger.error(f"Failed processing for OBS_ID: {obsid} with error: {e}")
         return obsid, False, None  # Return failure
 
-# Function to get obsids from CSV 
+# Function to get obsids from QSO CSV 
 def get_obsids_from_csv(file_path, max_obsids=None):
     obsids = set()
     with open(file_path, 'r') as csvfile:
