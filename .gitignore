@@ -1,2 +1,13 @@
-# Ignore these
+# Ignore Git metadata
 .git
+
+# Ignore all .db and .log files
+*.db
+*.log
+
+# Ignore the entire data directory
+data/
+
+# Ignore everything in scripts/ except .py files
+scripts/*
+!scripts/**/*.py

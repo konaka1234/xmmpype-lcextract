@@ -23,7 +23,7 @@ def process_obsid(obsid):
     try:
         # Define project
         project_name = f"{obsid}"
-        P = xmm.Project(root_folder='/data3/konakal/data/', mergedir='hp',
+        P = xmm.Project(root_folder='/home/konaka/xmmpype_extend/data/', mergedir='hp',
                         proc='proc', raw='raw', project_name=project_name,
                         astrocor_survey=None, eband="all", dbfile=f"{project_name}.db")
 
@@ -73,8 +73,8 @@ def process_obsid(obsid):
         logger.info(f"Completed processing for OBS_ID: {obsid}")
 
         # Move .log and .db files to the appropriate directories
-        destination_log_directory = '/data3/konakal/logs/'
-        destination_db_directory = '/data3/konakal/db/'
+        destination_log_directory = '/home/konaka/xmmpype_extend/logs/'
+        destination_db_directory = '/home/konaka/xmmpype_extend/db/'
         os.makedirs(destination_log_directory, exist_ok=True)
         os.makedirs(destination_db_directory, exist_ok=True)
 
@@ -87,7 +87,7 @@ def process_obsid(obsid):
             shutil.move(db_file, os.path.join(destination_db_directory, db_file))
 
         # Delete unnecessary raw files to save space
-        raw_dir = f"/data3/konakal/data/raw/{obsid}/{obsid}/ODF/"
+        raw_dir = f"/home/konaka/xmmpype_extend/data/raw/{obsid}/{obsid}/ODF/"
         if os.path.exists(raw_dir):
             for filename in os.listdir(raw_dir):
                 if not (filename.endswith("SUM.ASC") or filename.endswith("SUM.SAS")):
@@ -116,15 +116,15 @@ def get_obsids_from_csv(file_path, max_obsids=None):
 
 if __name__ == "__main__":
     # Set up logging
-    logging.basicConfig(level=logging.INFO, filename='/data3/konakal/logs/pipeline.log', filemode='w',
+    logging.basicConfig(level=logging.INFO, filename='/home/konaka/xmmpype_extend/logs/pipeline.log', filemode='w',
                         format='%(asctime)s - %(levelname)s - %(message)s')
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     logging.getLogger('').addHandler(console)
 
     # Load obsids from CSV file and add to the project
-    csv_file = '/data3/konakal/data/catalogs/qso_coords_8_8p5_1_0p5.csv'
-    max_obsids = None # Set to None to grab all unique values
+    csv_file = '/home/konaka/xmmpype_extend/data/catalogs/qso_coords.csv'
+    max_obsids = 5 # Set to None to grab all unique values
 
     # Manual obsids to be added
     manual_obsids = [""]
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     if max_obsids == 0:
         obsids_from_csv = manual_obsids
     else:
-        obsids_from_csv = get_obsids_from_csv(csv_file, max_obsids) + manual_obsids
+        obsids_from_csv = get_obsids_from_csv(csv_file, max_obsids) + manual_obsids 
 
     # Remove duplicates that exist in both lists
     obsids_from_csv = list(set(obsids_from_csv))
